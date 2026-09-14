@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-14T00:00:00.000Z",
+  "title": "Design System: Sociocracia 3.0 (pt-BR)",
+  "extensions": {
+    "colorMeta": {
+      "primary": { "role": "primary", "displayName": "Verde Assembleia", "canonical": "#2f6f4f", "tonalRamp": ["#0f1f17", "#173326", "#1f4632", "#28593f", "#2f6f4f", "#4f906e", "#84b79a", "#cbe2d6"] },
+      "primary-bright": { "role": "primary", "displayName": "Verde Assembleia Claro", "canonical": "#6cc49a", "tonalRamp": ["#12301f", "#1b4630", "#265c40", "#327351", "#3f8a62", "#57a97b", "#6cc49a", "#c6ecda"] },
+      "paper": { "role": "neutral", "displayName": "Papel", "canonical": "#ffffff", "tonalRamp": ["#d8dee4", "#e8ebef", "#f1f3f5", "#f8f9fb", "#ffffff", "#ffffff", "#ffffff", "#ffffff"] },
+      "surface": { "role": "neutral", "displayName": "Superfície", "canonical": "#f6f7f9", "tonalRamp": ["#57606a", "#7c858f", "#a3abb4", "#c9ced5", "#dfe3e8", "#eef0f3", "#f6f7f9", "#ffffff"] },
+      "line": { "role": "neutral", "displayName": "Linha", "canonical": "#d8dee4", "tonalRamp": ["#8c949d", "#aeb5bd", "#c6ccd3", "#d8dee4", "#e4e8ec", "#eef1f4", "#f6f8fa", "#ffffff"] },
+      "ink": { "role": "neutral", "displayName": "Tinta", "canonical": "#1f2328", "tonalRamp": ["#1f2328", "#2f343a", "#464c53", "#5f666e", "#7b828a", "#9aa1a9", "#bfc4ca", "#e6e8eb"] },
+      "ink-muted": { "role": "neutral", "displayName": "Tinta Suave", "canonical": "#57606a", "tonalRamp": ["#2b3138", "#3c434b", "#4e565f", "#57606a", "#7c8590", "#a3abb4", "#c9ced5", "#eef0f3"] },
+      "night-bg": { "role": "neutral", "displayName": "Noite", "canonical": "#0f1216", "tonalRamp": ["#0f1216", "#161b22", "#1e242c", "#2a313a", "#3a424c", "#565f6a", "#8a929c", "#c9ced5"] },
+      "night-surface": { "role": "neutral", "displayName": "Noite Superfície", "canonical": "#161b22", "tonalRamp": ["#0f1216", "#161b22", "#1e242c", "#2a313a", "#3a424c", "#565f6a", "#8a929c", "#c9ced5"] },
+      "night-line": { "role": "neutral", "displayName": "Noite Linha", "canonical": "#2a313a", "tonalRamp": ["#0f1216", "#161b22", "#1e242c", "#2a313a", "#3a424c", "#565f6a", "#8a929c", "#c9ced5"] },
+      "night-ink": { "role": "neutral", "displayName": "Noite Tinta", "canonical": "#e6edf3", "tonalRamp": ["#2a313a", "#3a424c", "#565f6a", "#8a929c", "#b6bdc6", "#cfd5dc", "#e6edf3", "#ffffff"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Título de página, um por tela." },
+      "title": { "displayName": "Title", "purpose": "Títulos de seção e de cartão." },
+      "body": { "displayName": "Body", "purpose": "Texto corrente e listas." },
+      "label": { "displayName": "Label", "purpose": "Rótulos de navegação entre padrões." }
+    },
+    "shadows": [],
+    "motion": [],
+    "breakpoints": [
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Bloco de navegação e de conteúdo com borda; clareia no hover.",
+      "html": "<a class=\"ds-card\" href=\"#\"><span class=\"ds-card-title\">Formação de proposta</span><span class=\"ds-card-body\">Um processo estruturado para projetar uma proposta de intervenção.</span></a>",
+      "css": ".ds-card { display: block; background: var(--surface, #f6f7f9); color: var(--ink, #1f2328); border: 1px solid var(--line, #d8dee4); border-radius: 10px; padding: 16px 18px; text-decoration: none; transition: background 0.15s ease, border-color 0.15s ease; } .ds-card:hover { background: var(--paper, #ffffff); border-color: var(--ink-muted, #57606a); } .ds-card:focus-visible { outline: 2px solid var(--accent, #2f6f4f); outline-offset: 2px; } .ds-card-title { display: block; font-weight: 700; font-size: 1.02rem; margin-bottom: 4px; } .ds-card-body { display: block; color: var(--muted, #57606a); font-size: 0.92rem; line-height: 1.5; }"
+    },
+    {
+      "name": "Sidebar Nav Item",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "Item da navegação lateral; ativo em verde.",
+      "html": "<a class=\"ds-nav\" href=\"#\" data-active=\"true\">Conceitos-chave</a>",
+      "css": ".ds-nav { display: block; color: var(--muted, #57606a); text-decoration: none; padding: 4px 10px; border-radius: 6px; font-size: 0.94rem; transition: color 0.15s ease, background 0.15s ease; } .ds-nav:hover { color: var(--fg, #1f2328); background: var(--bg-alt, #f6f7f9); } .ds-nav:focus-visible { outline: 2px solid var(--accent, #2f6f4f); outline-offset: 2px; } .ds-nav[data-active=\"true\"] { color: var(--accent, #2f6f4f); font-weight: 600; }"
+    },
+    {
+      "name": "Pattern Navigation",
+      "kind": "custom",
+      "refersTo": "padnav-link",
+      "description": "Blocos Anterior/Próximo entre padrões.",
+      "html": "<a class=\"ds-padnav\" href=\"#\"><span class=\"ds-padnav-label\">Próximo</span><span class=\"ds-padnav-title\">Resolver objeções</span></a>",
+      "css": ".ds-padnav { display: flex; flex-direction: column; gap: 2px; border: 1px solid var(--line, #d8dee4); border-radius: 10px; padding: 12px 16px; color: var(--fg, #1f2328); text-decoration: none; transition: background 0.15s ease; } .ds-padnav:hover { background: var(--bg-alt, #f6f7f9); } .ds-padnav:focus-visible { outline: 2px solid var(--accent, #2f6f4f); outline-offset: 2px; } .ds-padnav-label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted, #57606a); } .ds-padnav-title { font-weight: 500; }"
+    },
+    {
+      "name": "Glossary Tooltip Link",
+      "kind": "custom",
+      "refersTo": "glossary-link",
+      "description": "Termo do glossário com definição no title.",
+      "html": "<p>Sempre busque <a class=\"ds-gloss\" href=\"#\" title=\"Os passos específicos que você dá e/ou as restrições que você estabelece para cumprir um propósito.\">intervenção</a> com um propósito claro.</p>",
+      "css": ".ds-gloss { color: inherit; text-decoration: none; border-bottom: 1px dotted var(--accent, #2f6f4f); cursor: help; } .ds-gloss:hover { color: var(--accent, #2f6f4f); } .ds-gloss:focus-visible { outline: 2px solid var(--accent, #2f6f4f); outline-offset: 2px; }"
+    },
+    {
+      "name": "Search Input",
+      "kind": "input",
+      "refersTo": "search-input",
+      "description": "Campo de busca (Pagefind).",
+      "html": "<input class=\"ds-search\" type=\"search\" placeholder=\"Buscar…\" />",
+      "css": ".ds-search { background: var(--paper, #ffffff); color: var(--fg, #1f2328); border: 1px solid var(--line, #d8dee4); border-radius: 6px; height: 40px; padding: 8px 14px; font-size: 1rem; width: 100%; transition: border-color 0.15s ease, box-shadow 0.15s ease; } .ds-search:focus { outline: none; border-color: var(--accent, #2f6f4f); box-shadow: 0 0 0 2px var(--accent-soft, #e8f1ec); } .ds-search::placeholder { color: var(--muted, #57606a); }"
+    },
+    {
+      "name": "Breadcrumb",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "Trilha da categoria acima do padrão.",
+      "html": "<p class=\"ds-crumb\"><a href=\"#\">Entendimento e tomada de decisão</a></p>",
+      "css": ".ds-crumb { font-size: 0.85rem; color: var(--muted, #57606a); } .ds-crumb a { color: var(--accent, #2f6f4f); text-decoration: none; } .ds-crumb a:hover { text-decoration: underline; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "O Caderno da Assembleia",
+    "overview": "O sistema parece o caderno de estudo bem usado de um grupo autogerido: folhas claras, tinta escura, uma única cor de marca que marca o que dá para fazer. Nada compete com o texto, porque o texto é o produto. A densidade é média, de manual de leitura, com bordas e respiros que separam blocos sem cercar demais. A cor de marca é rara por princípio: ela aparece em links, seleção e foco. O resto vive em neutros frios, para que a ação nunca dispute atenção com o conteúdo. O verde é verde de assembleia: sóbrio, não publicitário.",
+    "keyCharacteristics": [
+      "Um único acento (verde) dedicado a link, seleção e foco.",
+      "Neutros frios, com fundo claro e texto escuro; inverso no tema escuro.",
+      "Superfícies planas com borda e cantos suaves; sem sombra decorativa.",
+      "Tipografia de sistema, legível e sem carregamento de fontes.",
+      "Coluna de leitura estreita com navegação lateral que acompanha a página."
+    ],
+    "rules": [
+      { "name": "A Regra do Verde Raro", "body": "O verde da marca cobre menos de 10% de qualquer tela. Ele marca ação e foco; nunca decora.", "section": "colors" },
+      { "name": "A Regra do Plano", "body": "Superfícies repousam planas. Borda e tom fazem a separação; sombra não é usada para decoração.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do usar o verde da marca só em link, seleção e foco.",
+      "Do manter o texto de conteúdo em 17px com line-height 1.65 e contraste AA.",
+      "Do dar estado visível a tudo que é clicável: hover, foco e ativo.",
+      "Do usar os tokens de cor (Papel, Superfície, Linha, Tinta) em vez de valores soltos.",
+      "Do manter os cantos em 6px para controles e 10px para blocos."
+    ],
+    "donts": [
+      "Don't usar o verde para decoração ou para estados que não sejam de ação.",
+      "Don't adicionar sombras decorativas nem flutuar superfícies em repouso.",
+      "Don't usar borda colorida grossa de um só lado como enfeite.",
+      "Don't trocar a tipografia de sistema por fontes que atrasem a leitura ou quebrem a acentuação.",
+      "Don't inventar depoimentos, métricas de uso ou textos de marketing."
+    ]
+  }
+}

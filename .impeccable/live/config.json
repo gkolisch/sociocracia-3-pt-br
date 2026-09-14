@@ -1,0 +1,5 @@
+{
+  "framework": "astro",
+  "port": 4321,
+  "cspChecked": false
+}
