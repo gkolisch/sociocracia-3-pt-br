@@ -37,7 +37,10 @@ const base = import.meta.env.BASE_URL.replace(/\/+$/, '') + '/';
       carregando = (async () => {
         try {
           pf = await importar(`${base}pagefind/pagefind.js`);
-          console.log('assistente: pagefind carregado', Object.keys(pf));
+          try {
+            await comLimite(pf.init(), 15000);
+          } catch {}
+          console.log('assistente: pagefind pronto', Object.keys(pf));
         } catch (erro) {
           pf = null;
           erroCarga = erro;
@@ -67,6 +70,46 @@ const base = import.meta.env.BASE_URL.replace(/\/+$/, '') + '/';
       out.innerHTML = partes.join('');
     }
 
+    function fallbackBusca() {
+      out.innerHTML = '<p class="qa-titulo">Não deu para montar o assistente agora. Use a busca:</p><div id="qa-fallback"></div>';
+      const iniciar = () => {
+        try {
+          new window.PagefindUI({
+            element: '#qa-fallback',
+            showSubResults: true,
+            placeholder: 'Buscar…',
+            translations: {
+              placeholder: 'Buscar…',
+              clear_search: 'Limpar',
+              load_more: 'Carregar mais resultados',
+              search_label: 'Buscar neste site',
+              filters_label: 'Filtros',
+              zero_results: 'Nenhum resultado para [SEARCH_TERM]',
+              many_results: '[COUNT] resultados para [SEARCH_TERM]',
+              one_result: '[COUNT] resultado para [SEARCH_TERM]',
+              searching: 'Buscando [SEARCH_TERM]…',
+            },
+          });
+        } catch (e) {
+          out.innerHTML = '<p class="qa-vazio">A busca também não carregou. Recarregue a página.</p>';
+        }
+      };
+      if (!document.querySelector(`link[href*="pagefind-ui.css"]`)) {
+        const css = document.createElement('link');
+        css.rel = 'stylesheet';
+        css.href = `${base}pagefind/pagefind-ui.css`;
+        document.head.appendChild(css);
+      }
+      if (window.PagefindUI) return iniciar();
+      const script = document.createElement('script');
+      script.src = `${base}pagefind/pagefind-ui.js`;
+      script.onload = iniciar;
+      script.onerror = () => {
+        out.innerHTML = '<p class="qa-vazio">A busca também não carregou. Recarregue a página.</p>';
+      };
+      document.head.appendChild(script);
+    }
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const consulta = input.value.trim();
@@ -82,7 +125,7 @@ const base = import.meta.env.BASE_URL.replace(/\/+$/, '') + '/';
         renderResultados(consulta, resultados);
       } catch (erro) {
         console.error('assistente:', erro);
-        out.innerHTML = `<p class="qa-vazio">Não consegui responder agora: ${erro.message}. Você pode usar a <a href="${base}busca/">busca</a>.</p>`;
+        fallbackBusca();
       }
     });
   </script>
