@@ -1,0 +1,72 @@
+---
+import Base from '../layouts/Base.astro';
+const base = import.meta.env.BASE_URL.replace(/\/+$/, '') + '/';
+---
+
+<Base title="Assistente">
+  <h1>Assistente</h1>
+  <p class="lede">Pergunte com suas palavras. O assistente busca no próprio guia e mostra os trechos que respondem.</p>
+  <p class="nota">Roda inteiro no seu navegador. Nenhuma pergunta sai daqui e não precisa de conta.</p>
+
+  <form id="qa-form" class="qa-form" autocomplete="off">
+    <input id="qa-input" class="qa-input" type="search" placeholder="Ex.: como decidir em grupo sem votar?" aria-label="Sua pergunta" />
+    <button class="qa-btn" type="submit">Perguntar</button>
+  </form>
+
+  <div id="qa-out" class="qa-out" aria-live="polite"></div>
+
+  <script>
+    const base = import.meta.env.BASE_URL.replace(/\/+$/, '') + '/';
+    const form = document.getElementById('qa-form');
+    const input = document.getElementById('qa-input');
+    const out = document.getElementById('qa-out');
+    let pf = null;
+
+    async function carregar() {
+      if (pf) return pf;
+      try {
+        pf = await import(/* @vite-ignore */ `${base}pagefind/pagefind.js`);
+        await pf.options({ excerptLength: 32 });
+      } catch (erro) {
+        pf = null;
+      }
+      return pf;
+    }
+
+    const limpar = (html) => html;
+
+    function renderResultados(consulta, resultados) {
+      if (!resultados.length) {
+        out.innerHTML = `<p class="qa-vazio">Nada encontrado para "<strong>${consulta}</strong>". Tente outras palavras.</p>`;
+        return;
+      }
+      const partes = [`<p class="qa-titulo">Trechos do guia que respondem a "${consulta}":</p>`];
+      for (const r of resultados) {
+        const d = r.data;
+        const titulo = d.meta?.title ?? 'Página';
+        partes.push(`
+          <article class="qa-card">
+            <a class="qa-card-title" href="${d.url}">${titulo}</a>
+            <p class="qa-excerpt">${limpar(d.excerpt)}</p>
+          </article>
+        `);
+      }
+      out.innerHTML = partes.join('');
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const consulta = input.value.trim();
+      if (!consulta) return;
+      out.innerHTML = '<p class="qa-carregando">Procurando no guia…</p>';
+      const paginafind = await carregar();
+      if (!paginafind) {
+        out.innerHTML = '<p class="qa-vazio">O assistente só funciona no site publicado (a busca é gerada no build).</p>';
+        return;
+      }
+      const busca = await paginafind.search(consulta);
+      const resultados = await Promise.all(busca.results.slice(0, 5).map((r) => r.data()));
+      renderResultados(consulta, resultados);
+    });
+  </script>
+</Base>

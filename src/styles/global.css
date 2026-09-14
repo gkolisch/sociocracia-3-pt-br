@@ -248,6 +248,85 @@ a.glossario-link:hover {
   text-decoration: none;
 }
 
+.nota {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.qa-form {
+  display: flex;
+  gap: 0.6rem;
+  margin: 1.5rem 0 1rem;
+}
+
+.qa-input {
+  flex: 1;
+  background: var(--bg);
+  color: var(--fg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.7rem 0.9rem;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+.qa-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-soft);
+}
+
+.qa-btn {
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  border-radius: 8px;
+  padding: 0.7rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.qa-btn:hover {
+  opacity: 0.9;
+}
+
+.qa-out {
+  margin-top: 1.5rem;
+}
+
+.qa-titulo,
+.qa-carregando,
+.qa-vazio {
+  color: var(--muted);
+}
+
+.qa-card {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.9rem 1.1rem;
+  margin-bottom: 0.75rem;
+  background: var(--bg-alt);
+}
+
+.qa-card-title {
+  font-weight: 600;
+}
+
+.qa-excerpt {
+  margin: 0.4rem 0 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.qa-excerpt mark {
+  background: var(--accent-soft);
+  color: var(--fg);
+  border-radius: 3px;
+  padding: 0 2px;
+}
+
 .breadcrumb {
   font-size: 0.85rem;
   color: var(--muted);
