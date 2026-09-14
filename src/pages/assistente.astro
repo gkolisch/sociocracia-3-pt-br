@@ -22,21 +22,26 @@ const base = import.meta.env.BASE_URL.replace(/\/+$/, '') + '/';
     const out = document.getElementById('qa-out');
     let pf = null;
     let carregando = null;
+    let erroCarga = null;
 
     const importar = new Function('u', 'return import(u)');
+    const comLimite = (p, ms) =>
+      Promise.race([
+        p,
+        new Promise((_, rejeitar) => setTimeout(() => rejeitar(new Error('tempo esgotado')), ms)),
+      ]);
 
     async function carregar() {
       if (pf) return pf;
       if (carregando) return carregando;
       carregando = (async () => {
         try {
-          const mod = await importar(`${base}pagefind/pagefind.js`);
-          try {
-            await mod.options({ excerptLength: 32 });
-          } catch {}
-          pf = mod;
+          pf = await importar(`${base}pagefind/pagefind.js`);
+          console.log('assistente: pagefind carregado', Object.keys(pf));
         } catch (erro) {
           pf = null;
+          erroCarga = erro;
+          console.error('assistente: falha ao carregar o pagefind', erro);
         }
         return pf;
       })();
@@ -67,14 +72,18 @@ const base = import.meta.env.BASE_URL.replace(/\/+$/, '') + '/';
       const consulta = input.value.trim();
       if (!consulta) return;
       out.innerHTML = '<p class="qa-carregando">Procurando no guia…</p>';
-      const paginafind = await carregar();
-      if (!paginafind) {
-        out.innerHTML = '<p class="qa-vazio">O assistente só funciona no site publicado (a busca é gerada no build).</p>';
-        return;
+      try {
+        const paginafind = await comLimite(carregar(), 20000);
+        if (!paginafind) {
+          throw new Error(erroCarga ? `não carregou o índice (${erroCarga.message})` : 'índice indisponível');
+        }
+        const busca = await comLimite(paginafind.search(consulta), 25000);
+        const resultados = await Promise.all(busca.results.slice(0, 5).map((r) => r.data()));
+        renderResultados(consulta, resultados);
+      } catch (erro) {
+        console.error('assistente:', erro);
+        out.innerHTML = `<p class="qa-vazio">Não consegui responder agora: ${erro.message}. Você pode usar a <a href="${base}busca/">busca</a>.</p>`;
       }
-      const busca = await paginafind.search(consulta);
-      const resultados = await Promise.all(busca.results.slice(0, 5).map((r) => r.data()));
-      renderResultados(consulta, resultados);
     });
   </script>
 </Base>
