@@ -14,5 +14,7 @@ const { Content } = await render(entry);
 ---
 
 <Base title={title}>
+  <span hidden data-pagefind-filter="tipo:Página"></span>
+  <span hidden data-pagefind-filter={`secao:${title}`}></span>
   <article class="doc"><Content /></article>
 </Base>

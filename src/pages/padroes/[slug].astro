@@ -25,6 +25,8 @@ const proximo = indice >= 0 && indice < todosPadroes.length - 1 ? todosPadroes[i
 ---
 
 <Base title={titulo}>
+  <span hidden data-pagefind-filter="tipo:Padrão"></span>
+  {categoria && <span hidden data-pagefind-filter={`categoria:${categoria.titulo}`}></span>}
   {
     categoria && (
       <p class="breadcrumb">

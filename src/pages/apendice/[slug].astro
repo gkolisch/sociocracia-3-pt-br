@@ -29,6 +29,8 @@ const base = import.meta.env.BASE_URL.replace(/\/+$/, '') + '/';
 ---
 
 <Base title={titulo}>
+  <span hidden data-pagefind-filter="tipo:Página"></span>
+  <span hidden data-pagefind-filter="secao:Apêndice"></span>
   <p class="breadcrumb"><a href={`${base}apendice/`}>Apêndice</a></p>
   <article class="doc"><Content /></article>
 </Base>
