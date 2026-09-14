@@ -2,7 +2,7 @@
 import type { CollectionEntry } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import { getCollection, render } from 'astro:content';
-import { tituloPorSlug, categoriaPorSlug } from '../../data/padroes';
+import { tituloPorSlug, categoriaPorSlug, todosPadroes } from '../../data/padroes';
 
 export async function getStaticPaths() {
   const padroes = await getCollection('padroes');
@@ -18,6 +18,10 @@ const titulo = tituloPorSlug[entry.id] ?? entry.id;
 const categoria = categoriaPorSlug[entry.id];
 const { Content } = await render(entry);
 const base = import.meta.env.BASE_URL.replace(/\/+$/, '') + '/';
+
+const indice = todosPadroes.findIndex((p) => p.slug === entry.id);
+const anterior = indice > 0 ? todosPadroes[indice - 1] : null;
+const proximo = indice >= 0 && indice < todosPadroes.length - 1 ? todosPadroes[indice + 1] : null;
 ---
 
 <Base title={titulo}>
@@ -25,8 +29,32 @@ const base = import.meta.env.BASE_URL.replace(/\/+$/, '') + '/';
     categoria && (
       <p class="breadcrumb">
         <a href={`${base}padroes/#${categoria.id}`}>{categoria.titulo}</a>
+        <span> · {tituloPorSlug[entry.id] ? '' : ''}</span>
       </p>
     )
   }
   <article class="doc"><Content /></article>
+
+  <nav class="padnav" aria-label="Navegação entre padrões">
+    {
+      anterior ? (
+        <a class="padnav-link anterior" href={`${base}padroes/${anterior.slug}/`}>
+          <span>Anterior</span>
+          {anterior.titulo}
+        </a>
+      ) : (
+        <span />
+      )
+    }
+    {
+      proximo ? (
+        <a class="padnav-link proximo" href={`${base}padroes/${proximo.slug}/`}>
+          <span>Próximo</span>
+          {proximo.titulo}
+        </a>
+      ) : (
+        <span />
+      )
+    }
+  </nav>
 </Base>

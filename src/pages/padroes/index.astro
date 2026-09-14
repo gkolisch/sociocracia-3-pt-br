@@ -1,16 +1,30 @@
 ---
 import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
 import { categorias, estrutura } from '../../data/padroes';
 
 const base = import.meta.env.BASE_URL.replace(/\/+$/, '') + '/';
 const total = categorias.reduce((n, c) => n + c.padroes.length, 0);
+
+const entradas = await getCollection('padroes');
+const resumos: Record<string, string> = {};
+for (const entrada of entradas) {
+  const linhas = (entrada.body ?? '').split('\n');
+  const paragrafo = linhas.find((l) => l.trim() && !l.trim().startsWith('#'));
+  if (paragrafo) {
+    resumos[entrada.id] = paragrafo
+      .replace(/[*_`]/g, '')
+      .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
+      .trim();
+  }
+}
 ---
 
-<Base title="Os padrões">
-  <h1>Os padrões</h1>
+<Base title="Mapa de padrões">
+  <h1>Mapa de padrões</h1>
   <p class="lede">
-    {total} padrões, agrupados em {categorias.length} categorias. Cada padrão é um modelo para responder a
-    um tipo de desafio ou oportunidade.
+    {total} padrões, agrupados em {categorias.length} categorias. Cada padrão é um modelo para responder a um
+    tipo de desafio ou oportunidade.
   </p>
 
   {
@@ -18,24 +32,25 @@ const total = categorias.reduce((n, c) => n + c.padroes.length, 0);
       <section id={c.id}>
         <h2>{c.titulo}</h2>
         <p>{c.descricao}</p>
-        <ul>
+        <div class="cards">
           {c.padroes.map((p) => (
-            <li>
-              <a href={`${base}padroes/${p.slug}/`}>{p.titulo}</a>
-            </li>
+            <a class="card" href={`${base}padroes/${p.slug}/`}>
+              <h3>{p.titulo}</h3>
+              <p>{resumos[p.slug] ?? p.en}</p>
+            </a>
           ))}
-        </ul>
+        </div>
       </section>
     ))
   }
 
   <section id="estrutura-organizacional">
     <h2>{estrutura.titulo}</h2>
-    <p>
-      A estrutura organizacional é o arranjo dos domínios e das conexões entre eles.
-    </p>
-    <ul>
-      <li><a href={`${base}${estrutura.slug}/`}>Estrutura organizacional e exemplos de estruturas maiores</a></li>
-    </ul>
+    <div class="cards">
+      <a class="card" href={`${base}${estrutura.slug}/`}>
+        <h3>Estrutura organizacional e exemplos maiores</h3>
+        <p>O arranjo dos domínios e das conexões entre eles, com exemplos de estruturas maiores.</p>
+      </a>
+    </div>
   </section>
 </Base>

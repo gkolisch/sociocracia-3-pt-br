@@ -187,9 +187,10 @@ main ol {
 
 main blockquote {
   margin: 1.2rem 0;
-  padding: 0.4rem 1rem;
-  border-left: 3px solid var(--accent);
+  padding: 0.75rem 1.1rem;
   background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 10px;
   color: var(--muted);
 }
 
@@ -236,6 +237,17 @@ main hr {
   color: var(--muted);
 }
 
+a.glossario-link {
+  color: inherit;
+  border-bottom: 1px dotted var(--accent);
+  cursor: help;
+}
+
+a.glossario-link:hover {
+  color: var(--accent);
+  text-decoration: none;
+}
+
 .breadcrumb {
   font-size: 0.85rem;
   color: var(--muted);
@@ -250,6 +262,48 @@ main hr {
   border-radius: 999px;
   padding: 0.1rem 0.6rem;
   margin-bottom: 0.6rem;
+}
+
+.padnav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.padnav-link {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  color: var(--fg);
+  font-weight: 500;
+}
+
+.padnav-link span {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.padnav-link.proximo {
+  text-align: right;
+}
+
+.padnav-link:hover {
+  background: var(--bg-alt);
+  text-decoration: none;
+}
+
+main a[href^="/"].padnav-link,
+main a.padnav-link {
+  text-decoration: none;
 }
 
 footer.site {
