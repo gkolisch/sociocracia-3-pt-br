@@ -21,19 +21,27 @@ const base = import.meta.env.BASE_URL.replace(/\/+$/, '') + '/';
     const input = document.getElementById('qa-input');
     const out = document.getElementById('qa-out');
     let pf = null;
+    let carregando = null;
+
+    const importar = new Function('u', 'return import(u)');
 
     async function carregar() {
       if (pf) return pf;
-      try {
-        pf = await import(/* @vite-ignore */ `${base}pagefind/pagefind.js`);
-        await pf.options({ excerptLength: 32 });
-      } catch (erro) {
-        pf = null;
-      }
-      return pf;
+      if (carregando) return carregando;
+      carregando = (async () => {
+        try {
+          const mod = await importar(`${base}pagefind/pagefind.js`);
+          try {
+            await mod.options({ excerptLength: 32 });
+          } catch {}
+          pf = mod;
+        } catch (erro) {
+          pf = null;
+        }
+        return pf;
+      })();
+      return carregando;
     }
-
-    const limpar = (html) => html;
 
     function renderResultados(consulta, resultados) {
       if (!resultados.length) {
@@ -47,7 +55,7 @@ const base = import.meta.env.BASE_URL.replace(/\/+$/, '') + '/';
         partes.push(`
           <article class="qa-card">
             <a class="qa-card-title" href="${d.url}">${titulo}</a>
-            <p class="qa-excerpt">${limpar(d.excerpt)}</p>
+            <p class="qa-excerpt">${d.excerpt}</p>
           </article>
         `);
       }
