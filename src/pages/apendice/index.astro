@@ -1,0 +1,22 @@
+---
+import Base from '../../layouts/Base.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/+$/, '') + '/';
+
+const itens = [
+  { slug: 'exemplo-de-descricao-de-dominio-marketing', titulo: 'Exemplo de descrição de domínio: departamento de marketing' },
+  { slug: 'icpt', titulo: 'ICPT — Compromisso intencional de praticantes e professores' },
+  { slug: 'licenca', titulo: 'Licença' },
+  { slug: 'links', titulo: 'Links' },
+  { slug: 'aviso-legal', titulo: 'Aviso legal' },
+  { slug: 'agradecimentos', titulo: 'Agradecimentos' },
+  { slug: 'autores', titulo: 'Autores' },
+];
+---
+
+<Base title="Apêndice">
+  <h1>Apêndice</h1>
+  <ul>
+    {itens.map((i) => <li><a href={`${base}apendice/${i.slug}/`}>{i.titulo}</a></li>)}
+  </ul>
+</Base>

@@ -1,0 +1,134 @@
+---
+import '../styles/global.css';
+import { categorias, estrutura } from '../data/padroes';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'Guia prático de Sociocracia 3.0 em português do Brasil.' } =
+  Astro.props;
+
+const base = import.meta.env.BASE_URL.replace(/\/+$/, '') + '/';
+const pageUrl = new URL(Astro.url.pathname.replace(import.meta.env.BASE_URL, '/'), 'http://x');
+const current = pageUrl.pathname;
+
+const paginas = [
+  { href: 'abertura/', label: 'O que é S3' },
+  { href: 'principios/', label: 'Os sete princípios' },
+  { href: 'conceitos-chave/', label: 'Conceitos-chave' },
+  { href: 'common-sense-framework/', label: 'Framework de senso comum' },
+  { href: 'glossario/', label: 'Glossário' },
+];
+
+const apendice = [
+  { href: 'apendice/exemplo-de-descricao-de-dominio-marketing/', label: 'Exemplo de descrição de domínio' },
+  { href: 'apendice/icpt/', label: 'ICPT' },
+  { href: 'apendice/licenca/', label: 'Licença' },
+  { href: 'apendice/links/', label: 'Links' },
+  { href: 'apendice/aviso-legal/', label: 'Aviso legal' },
+  { href: 'apendice/agradecimentos/', label: 'Agradecimentos' },
+  { href: 'apendice/autores/', label: 'Autores' },
+];
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} · Sociocracia 3.0</title>
+    <meta name="description" content={description} />
+  </head>
+  <body>
+    <header class="site" data-pagefind-ignore>
+      <div class="bar">
+        <a class="brand" href={base}>Sociocracia <span>3.0</span></a>
+        <nav class="top">
+          <a href={`${base}busca/`}>Busca</a>
+          <a href={`${base}padroes/`}>Padrões</a>
+        </nav>
+        <button class="toggle" id="navToggle" aria-label="Abrir menu" aria-expanded="false">Menu</button>
+      </div>
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar" id="sidebar" data-pagefind-ignore>
+        <nav>
+          <ul>
+            <li><a href={base} aria-current={current === '/' ? 'page' : undefined}>Início</a></li>
+            {
+              paginas.map((p) => (
+                <li>
+                  <a href={`${base}${p.href}`} aria-current={current === `/${p.href.replace(/\/$/, '')}` ? 'page' : undefined}>
+                    {p.label}
+                  </a>
+                </li>
+              ))
+            }
+            <li>
+              <details open>
+                <summary>Padrões</summary>
+                <ul>
+                  <li>
+                    <a href={`${base}padroes/`} aria-current={current === '/padroes' ? 'page' : undefined}>
+                      Todos os padrões
+                    </a>
+                  </li>
+                  {
+                    categorias.map((c) => (
+                      <li>
+                        <a href={`${base}padroes/#${c.id}`}>{c.titulo}</a>
+                      </li>
+                    ))
+                  }
+                  <li>
+                    <a href={`${base}${estrutura.slug}/`}>{estrutura.titulo}</a>
+                  </li>
+                </ul>
+              </details>
+            </li>
+            <li>
+              <details>
+                <summary>Apêndice</summary>
+                <ul>
+                  {
+                    apendice.map((a) => (
+                      <li>
+                        <a href={`${base}${a.href}`}>{a.label}</a>
+                      </li>
+                    ))
+                  }
+                </ul>
+              </details>
+            </li>
+          </ul>
+        </nav>
+      </aside>
+
+      <main data-pagefind-body>
+        <slot />
+      </main>
+    </div>
+
+    <footer class="site" data-pagefind-ignore>
+      <div class="bar">
+        <p>
+          Baseado em <em>Um guia prático para evoluir organizações ágeis e resilientes com Sociocracia 3.0</em>,
+          de James Priest, Bernhard Bockelbrink e Liliana David. Licença
+          <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.
+        </p>
+      </div>
+    </footer>
+
+    <script is:inline>
+      const btn = document.getElementById('navToggle');
+      const sidebar = document.getElementById('sidebar');
+      btn?.addEventListener('click', () => {
+        const open = sidebar.classList.toggle('open');
+        btn.setAttribute('aria-expanded', String(open));
+      });
+    </script>
+  </body>
+</html>

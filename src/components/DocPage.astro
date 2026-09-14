@@ -1,0 +1,18 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+
+interface Props {
+  id: string;
+  title: string;
+}
+
+const { id, title } = Astro.props;
+const entry = (await getCollection('paginas')).find((e) => e.id === id);
+if (!entry) throw new Error(`Página não encontrada na coleção "paginas": ${id}`);
+const { Content } = await render(entry);
+---
+
+<Base title={title}>
+  <article class="doc"><Content /></article>
+</Base>

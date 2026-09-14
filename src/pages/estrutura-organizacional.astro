@@ -1,0 +1,15 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+import { estrutura } from '../data/padroes';
+
+const entry = (await getCollection('padroes')).find((e) => e.id === estrutura.slug);
+if (!entry) throw new Error(`Padrão não encontrado: ${estrutura.slug}`);
+const { Content } = await render(entry);
+const base = import.meta.env.BASE_URL.replace(/\/+$/, '') + '/';
+---
+
+<Base title={estrutura.titulo}>
+  <p class="breadcrumb"><a href={`${base}padroes/`}>Os padrões</a></p>
+  <article class="doc"><Content /></article>
+</Base>

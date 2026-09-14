@@ -1,0 +1,32 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+import { tituloPorSlug, categoriaPorSlug } from '../../data/padroes';
+
+export async function getStaticPaths() {
+  const padroes = await getCollection('padroes');
+  return padroes.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+interface Props {
+  entry: CollectionEntry<'padroes'>;
+}
+
+const { entry } = Astro.props;
+const titulo = tituloPorSlug[entry.id] ?? entry.id;
+const categoria = categoriaPorSlug[entry.id];
+const { Content } = await render(entry);
+const base = import.meta.env.BASE_URL.replace(/\/+$/, '') + '/';
+---
+
+<Base title={titulo}>
+  {
+    categoria && (
+      <p class="breadcrumb">
+        <a href={`${base}padroes/#${categoria.id}`}>{categoria.titulo}</a>
+      </p>
+    )
+  }
+  <article class="doc"><Content /></article>
+</Base>

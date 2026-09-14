@@ -1,0 +1,41 @@
+---
+import Base from '../../layouts/Base.astro';
+import { categorias, estrutura } from '../../data/padroes';
+
+const base = import.meta.env.BASE_URL.replace(/\/+$/, '') + '/';
+const total = categorias.reduce((n, c) => n + c.padroes.length, 0);
+---
+
+<Base title="Os padrões">
+  <h1>Os padrões</h1>
+  <p class="lede">
+    {total} padrões, agrupados em {categorias.length} categorias. Cada padrão é um modelo para responder a
+    um tipo de desafio ou oportunidade.
+  </p>
+
+  {
+    categorias.map((c) => (
+      <section id={c.id}>
+        <h2>{c.titulo}</h2>
+        <p>{c.descricao}</p>
+        <ul>
+          {c.padroes.map((p) => (
+            <li>
+              <a href={`${base}padroes/${p.slug}/`}>{p.titulo}</a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))
+  }
+
+  <section id="estrutura-organizacional">
+    <h2>{estrutura.titulo}</h2>
+    <p>
+      A estrutura organizacional é o arranjo dos domínios e das conexões entre eles.
+    </p>
+    <ul>
+      <li><a href={`${base}${estrutura.slug}/`}>Estrutura organizacional e exemplos de estruturas maiores</a></li>
+    </ul>
+  </section>
+</Base>

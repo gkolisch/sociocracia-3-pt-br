@@ -1,0 +1,283 @@
+:root {
+  --bg: #ffffff;
+  --bg-alt: #f6f7f9;
+  --fg: #1f2328;
+  --muted: #57606a;
+  --border: #d8dee4;
+  --accent: #2f6f4f;
+  --accent-soft: #e8f1ec;
+  --maxw: 76rem;
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f1216;
+    --bg-alt: #161b22;
+    --fg: #e6edf3;
+    --muted: #9198a1;
+    --border: #2a313a;
+    --accent: #6cc49a;
+    --accent-soft: #17251e;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.65;
+  font-size: 17px;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.layout {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 18rem minmax(0, 1fr);
+  gap: 2.5rem;
+  padding: 0 1.25rem;
+}
+
+header.site {
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+header.site .bar {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+header.site .brand {
+  font-weight: 700;
+  color: var(--fg);
+  font-size: 1.05rem;
+}
+
+header.site .brand span {
+  color: var(--accent);
+}
+
+header.site nav.top {
+  margin-left: auto;
+  display: flex;
+  gap: 1rem;
+  font-size: 0.95rem;
+}
+
+.toggle {
+  display: none;
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--fg);
+  border-radius: 8px;
+  padding: 0.35rem 0.6rem;
+  cursor: pointer;
+}
+
+aside.sidebar {
+  padding: 1.5rem 0 4rem;
+  font-size: 0.94rem;
+}
+
+aside.sidebar ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+aside.sidebar > nav > ul > li {
+  margin-bottom: 0.9rem;
+}
+
+aside.sidebar .group-title {
+  font-weight: 700;
+  color: var(--fg);
+}
+
+aside.sidebar details summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--fg);
+  padding: 0.15rem 0;
+}
+
+aside.sidebar details ul {
+  margin: 0.2rem 0 0.6rem 0.2rem;
+  padding-left: 0.8rem;
+  border-left: 1px solid var(--border);
+}
+
+aside.sidebar li a {
+  display: block;
+  padding: 0.12rem 0;
+  color: var(--muted);
+}
+
+aside.sidebar a[aria-current="page"] {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+main {
+  padding: 1.5rem 0 5rem;
+  min-width: 0;
+}
+
+main h1 {
+  font-size: 2rem;
+  line-height: 1.2;
+  margin-top: 0.5rem;
+}
+
+main h2 {
+  font-size: 1.4rem;
+  margin-top: 2.2rem;
+  padding-bottom: 0.2rem;
+  border-bottom: 1px solid var(--border);
+}
+
+main h3 {
+  font-size: 1.15rem;
+  margin-top: 1.8rem;
+}
+
+main h4,
+main h5,
+main h6 {
+  font-size: 1rem;
+  margin-top: 1.4rem;
+}
+
+main p,
+main li {
+  color: var(--fg);
+}
+
+main ul,
+main ol {
+  padding-left: 1.4rem;
+}
+
+main blockquote {
+  margin: 1.2rem 0;
+  padding: 0.4rem 1rem;
+  border-left: 3px solid var(--accent);
+  background: var(--bg-alt);
+  color: var(--muted);
+}
+
+main code {
+  background: var(--bg-alt);
+  padding: 0.1rem 0.3rem;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+main hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 2rem 0;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.card {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1rem 1.1rem;
+  background: var(--bg-alt);
+}
+
+.card h3 {
+  margin: 0 0 0.4rem;
+  font-size: 1.02rem;
+}
+
+.card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.lede {
+  font-size: 1.1rem;
+  color: var(--muted);
+}
+
+.breadcrumb {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 0.5rem;
+}
+
+.tag {
+  display: inline-block;
+  font-size: 0.78rem;
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-radius: 999px;
+  padding: 0.1rem 0.6rem;
+  margin-bottom: 0.6rem;
+}
+
+footer.site {
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+footer.site .bar {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem;
+}
+
+@media (max-width: 52rem) {
+  .layout {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .toggle {
+    display: inline-block;
+  }
+  aside.sidebar {
+    display: none;
+    padding-top: 0;
+  }
+  aside.sidebar.open {
+    display: block;
+    border-bottom: 1px solid var(--border);
+  }
+}

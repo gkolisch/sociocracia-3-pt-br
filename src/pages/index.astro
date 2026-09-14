@@ -1,0 +1,54 @@
+---
+import Base from '../layouts/Base.astro';
+import { categorias } from '../data/padroes';
+
+const base = import.meta.env.BASE_URL.replace(/\/+$/, '') + '/';
+const totalPadroes = categorias.reduce((n, c) => n + c.padroes.length, 0);
+---
+
+<Base title="Início">
+  <h1>Sociocracia 3.0</h1>
+  <p class="lede">
+    Um guia prático para evoluir organizações ágeis e resilientes. Tradução em português do Brasil,
+    com {totalPadroes} padrões em {categorias.length} categorias.
+  </p>
+
+  <div class="cards">
+    <a class="card" href={`${base}abertura/`}>
+      <h3>O que é S3</h3>
+      <p>Conceitos, princípios e práticas para melhorar desempenho, engajamento e bem-estar.</p>
+    </a>
+    <a class="card" href={`${base}principios/`}>
+      <h3>Os sete princípios</h3>
+      <p>Os princípios fundamentais que orientam a colaboração sociocrática e ágil.</p>
+    </a>
+    <a class="card" href={`${base}conceitos-chave/`}>
+      <h3>Conceitos-chave</h3>
+      <p>Propósito, motivadores, requisitos, domínios, governança e complexidade.</p>
+    </a>
+    <a class="card" href={`${base}common-sense-framework/`}>
+      <h3>Framework de senso comum</h3>
+      <p>Dez princípios para descobrir por onde começar.</p>
+    </a>
+    <a class="card" href={`${base}padroes/`}>
+      <h3>Os padrões</h3>
+      <p>Todos os {totalPadroes} padrões, organizados por categoria.</p>
+    </a>
+    <a class="card" href={`${base}glossario/`}>
+      <h3>Glossário</h3>
+      <p>Termos do S3, com o original em inglês ao lado.</p>
+    </a>
+  </div>
+
+  <h2>Padrões por categoria</h2>
+  <div class="cards">
+    {
+      categorias.map((c) => (
+        <a class="card" href={`${base}padroes/#${c.id}`}>
+          <h3>{c.titulo}</h3>
+          <p>{c.descricao}</p>
+        </a>
+      ))
+    }
+  </div>
+</Base>
