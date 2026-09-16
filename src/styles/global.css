@@ -30,6 +30,12 @@ html {
   scroll-behavior: smooth;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
 body {
   margin: 0;
   background: var(--bg);
@@ -96,7 +102,7 @@ header.site nav.top {
   background: none;
   border: 1px solid var(--border);
   color: var(--fg);
-  border-radius: 8px;
+  border-radius: 6px;
   padding: 0.35rem 0.6rem;
   cursor: pointer;
 }
@@ -136,7 +142,7 @@ aside.sidebar details ul {
 
 aside.sidebar li a {
   display: block;
-  padding: 0.12rem 0;
+  padding: 0.35rem 0;
   color: var(--muted);
 }
 
@@ -264,7 +270,7 @@ a.glossario-link:hover {
   background: var(--bg);
   color: var(--fg);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 6px;
   padding: 0.7rem 0.9rem;
   font-size: 1rem;
   font-family: inherit;
@@ -280,7 +286,7 @@ a.glossario-link:hover {
   background: var(--accent);
   color: var(--bg);
   border: none;
-  border-radius: 8px;
+  border-radius: 6px;
   padding: 0.7rem 1.2rem;
   font-size: 1rem;
   font-weight: 600;
@@ -323,7 +329,7 @@ a.glossario-link:hover {
 .qa-excerpt mark {
   background: var(--accent-soft);
   color: var(--fg);
-  border-radius: 3px;
+  border-radius: 4px;
   padding: 0 2px;
 }
 
@@ -385,6 +391,132 @@ main a.padnav-link {
   text-decoration: none;
 }
 
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--bg);
+  color: var(--fg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.5rem 0.9rem;
+  z-index: 100;
+}
+
+.skip-link:focus {
+  left: 1rem;
+  top: 0.5rem;
+}
+
+.topsearch {
+  display: flex;
+}
+
+.topsearch input {
+  background: var(--bg-alt);
+  color: var(--fg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.4rem 0.7rem;
+  font-size: 0.9rem;
+  font-family: inherit;
+  min-width: 12rem;
+}
+
+.topsearch input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-soft);
+}
+
+.filtro {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin: 1.25rem 0 1.5rem;
+  position: sticky;
+  top: 3.4rem;
+  background: var(--bg);
+  padding: 0.6rem 0;
+  z-index: 5;
+}
+
+.filtro input[type='search'] {
+  background: var(--bg-alt);
+  color: var(--fg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.45rem 0.75rem;
+  font-size: 0.95rem;
+  font-family: inherit;
+  min-width: 14rem;
+}
+
+.filtro input[type='search']:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-soft);
+}
+
+.chip {
+  background: var(--bg-alt);
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.2rem 0.7rem;
+  font-size: 0.8rem;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.chip[aria-pressed='true'] {
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.situacoes {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.situacao {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1rem 1.1rem;
+  background: var(--bg-alt);
+}
+
+.situacao h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+}
+
+.situacao ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.situacao a {
+  font-size: 0.82rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.15rem 0.6rem;
+}
+
+.situacao a:hover {
+  border-color: var(--accent);
+  text-decoration: none;
+}
+
 footer.site {
   border-top: 1px solid var(--border);
   color: var(--muted);
@@ -402,6 +534,12 @@ footer.site .bar {
     grid-template-columns: 1fr;
     gap: 0;
   }
+  .top {
+    display: none;
+  }
+  .topsearch {
+    display: none;
+  }
   .toggle {
     display: inline-block;
   }
@@ -412,5 +550,8 @@ footer.site .bar {
   aside.sidebar.open {
     display: block;
     border-bottom: 1px solid var(--border);
+  }
+  .padnav {
+    grid-template-columns: 1fr;
   }
 }

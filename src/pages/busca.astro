@@ -15,7 +15,7 @@ const base = import.meta.env.BASE_URL.replace(/\/+$/, '') + '/';
   <script is:inline>
     window.addEventListener('DOMContentLoaded', () => {
       if (window.PagefindUI) {
-        new window.PagefindUI({
+        const ui = new window.PagefindUI({
           element: '#search',
           showSubResults: true,
           placeholder: 'Buscar…',
@@ -33,6 +33,12 @@ const base = import.meta.env.BASE_URL.replace(/\/+$/, '') + '/';
             searching: 'Buscando [SEARCH_TERM]…',
           },
         });
+        const q = new URLSearchParams(location.search).get('q');
+        if (q) {
+          const campo = document.querySelector('.pagefind-ui__search-input');
+          if (campo) campo.value = q;
+          if (typeof ui.triggerSearch === 'function') ui.triggerSearch(q);
+        }
       }
     });
   </script>

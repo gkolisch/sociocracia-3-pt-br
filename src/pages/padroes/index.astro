@@ -23,18 +23,36 @@ for (const entrada of entradas) {
 <Base title="Mapa de padrões">
   <h1>Mapa de padrões</h1>
   <p class="lede">
-    {total} padrões, agrupados em {categorias.length} categorias. Cada padrão é um modelo para responder a um
-    tipo de desafio ou oportunidade.
+    {total} padrões, agrupados em {categorias.length} categorias. Filtre por texto ou por categoria.
   </p>
+
+  <div class="filtro">
+    <input
+      id="filtro-texto"
+      type="search"
+      placeholder="Filtrar padrões…"
+      aria-label="Filtrar padrões por texto"
+    />
+    <button class="chip" type="button" data-cat="todos" aria-pressed="true">Todas</button>
+    {
+      categorias.map((c) => (
+        <button class="chip" type="button" data-cat={c.id} aria-pressed="false">
+          {c.titulo}
+        </button>
+      ))
+    }
+  </div>
+
+  <p id="filtro-vazio" class="qa-vazio" hidden>Nenhum padrão corresponde ao filtro.</p>
 
   {
     categorias.map((c) => (
-      <section id={c.id}>
+      <section id={c.id} class="cat" data-cat={c.id}>
         <h2>{c.titulo}</h2>
         <p>{c.descricao}</p>
         <div class="cards">
           {c.padroes.map((p) => (
-            <a class="card" href={`${base}padroes/${p.slug}/`}>
+            <a class="card" href={`${base}padroes/${p.slug}/`} data-titulo={p.titulo.toLowerCase()}>
               <h3>{p.titulo}</h3>
               <p>{resumos[p.slug] ?? p.en}</p>
             </a>
@@ -47,10 +65,45 @@ for (const entrada of entradas) {
   <section id="estrutura-organizacional">
     <h2>{estrutura.titulo}</h2>
     <div class="cards">
-      <a class="card" href={`${base}${estrutura.slug}/`}>
+      <a class="card" href={`${base}${estrutura.slug}/`} data-titulo="estrutura organizacional">
         <h3>Estrutura organizacional e exemplos maiores</h3>
         <p>O arranjo dos domínios e das conexões entre eles, com exemplos de estruturas maiores.</p>
       </a>
     </div>
   </section>
+
+  <script>
+    const alvo = document.getElementById('filtro-texto');
+    const vazio = document.getElementById('filtro-vazio');
+    const chips = Array.from(document.querySelectorAll('.chip[data-cat]'));
+    const secoes = Array.from(document.querySelectorAll('section.cat'));
+    let categoria = 'todos';
+
+    function aplicar() {
+      const termo = (alvo.value || '').trim().toLowerCase();
+      let visiveis = 0;
+      for (const secao of secoes) {
+        const bateCategoria = categoria === 'todos' || secao.dataset.cat === categoria;
+        let visiveisNaSecao = 0;
+        for (const card of secao.querySelectorAll('.card')) {
+          const bateTexto = !termo || card.dataset.titulo.includes(termo);
+          const mostrar = bateCategoria && bateTexto;
+          card.hidden = !mostrar;
+          if (mostrar) visiveisNaSecao++;
+        }
+        secao.hidden = visiveisNaSecao === 0;
+        visiveis += visiveisNaSecao;
+      }
+      vazio.hidden = visiveis !== 0;
+    }
+
+    alvo?.addEventListener('input', aplicar);
+    for (const chip of chips) {
+      chip.addEventListener('click', () => {
+        categoria = chip.dataset.cat;
+        for (const c of chips) c.setAttribute('aria-pressed', String(c === chip));
+        aplicar();
+      });
+    }
+  </script>
 </Base>

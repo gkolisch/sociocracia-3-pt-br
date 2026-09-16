@@ -1,0 +1,26 @@
+[
+  {
+    "titulo": "Conduzir a primeira reunião",
+    "slugs": ["reuniao-de-governanca", "cheganca", "rodadas", "facilitar-reunioes"]
+  },
+  {
+    "titulo": "Decidir sem votar",
+    "slugs": ["tomada-de-decisao-por-consentimento", "formacao-de-proposta", "testar-se-argumentos-qualificam-como-objecoes", "resolver-objecoes"]
+  },
+  {
+    "titulo": "Definir papéis e círculos",
+    "slugs": ["circulo", "papel", "ligacao", "selecao-de-papel"]
+  },
+  {
+    "titulo": "Começar um coletivo",
+    "slugs": ["adotar-os-sete-principios", "acordar-valores", "esclarecer-e-desenvolver-dominios", "criar-um-sistema-de-puxada-para-a-mudanca-organizacional"]
+  },
+  {
+    "titulo": "Lidar com um conflito ou travamento",
+    "slugs": ["navegar-pela-tensao", "descrever-motivadores-organizacionais", "devolutiva-entre-pares", "colaborar-em-dependencias"]
+  },
+  {
+    "titulo": "Organizar o trabalho do dia a dia",
+    "slugs": ["lista-de-pendencias", "visualizar-o-trabalho", "priorizar-listas-de-pendencias", "reuniao-diaria-em-pe"]
+  }
+]

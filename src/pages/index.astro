@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
-import { categorias } from '../data/padroes';
+import { categorias, tituloPorSlug } from '../data/padroes';
+import situacoes from '../data/situacoes.json';
 
 const base = import.meta.env.BASE_URL.replace(/\/+$/, '') + '/';
 const totalPadroes = categorias.reduce((n, c) => n + c.padroes.length, 0);
@@ -12,6 +13,25 @@ const totalPadroes = categorias.reduce((n, c) => n + c.padroes.length, 0);
     Um guia prático para evoluir organizações ágeis e resilientes. Tradução em português do Brasil,
     com {totalPadroes} padrões em {categorias.length} categorias.
   </p>
+
+  <h2>Comece por situação</h2>
+  <p>O que vocês precisam fazer agora?</p>
+  <div class="situacoes">
+    {
+      situacoes.map((s) => (
+        <section class="situacao">
+          <h3>{s.titulo}</h3>
+          <ul>
+            {s.slugs.map((slug) => (
+              <li>
+                <a href={`${base}padroes/${slug}/`}>{tituloPorSlug[slug] ?? slug}</a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))
+    }
+  </div>
 
   <div class="cards">
     <a class="card" href={`${base}abertura/`}>

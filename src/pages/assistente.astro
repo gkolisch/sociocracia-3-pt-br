@@ -4,14 +4,21 @@ const base = import.meta.env.BASE_URL.replace(/\/+$/, '') + '/';
 ---
 
 <Base title="Assistente">
-  <h1>Assistente</h1>
-  <p class="lede">Pergunte com suas palavras. O assistente busca no próprio guia e mostra os trechos que respondem.</p>
+  <h1>Busca assistida</h1>
+  <p class="lede">Encontre no guia os trechos que respondem à sua pergunta. Não é uma IA que conversa: é uma busca que mostra o que o guia diz.</p>
   <p class="nota">Roda inteiro no seu navegador. Nenhuma pergunta sai daqui e não precisa de conta.</p>
 
   <form id="qa-form" class="qa-form" autocomplete="off">
     <input id="qa-input" class="qa-input" type="search" placeholder="Ex.: como decidir em grupo sem votar?" aria-label="Sua pergunta" />
     <button class="qa-btn" type="submit">Perguntar</button>
   </form>
+
+  <p class="nota">Exemplos:
+    <button type="button" class="chip" data-exemplo="como decidir em grupo sem votar">decidir sem votar</button>
+    <button type="button" class="chip" data-exemplo="como conduzir a primeira reunião">primeira reunião</button>
+    <button type="button" class="chip" data-exemplo="como definir papéis e círculos">definir papéis</button>
+    <button type="button" class="chip" data-exemplo="o que fazer quando o grupo trava">grupo travado</button>
+  </p>
 
   <div id="qa-out" class="qa-out" aria-live="polite"></div>
 
@@ -25,6 +32,11 @@ const base = import.meta.env.BASE_URL.replace(/\/+$/, '') + '/';
     let erroCarga = null;
 
     const importar = new Function('u', 'return import(u)');
+    const esc = (s) =>
+      String(s).replace(
+        /[&<>"']/g,
+        (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c],
+      );
     const comLimite = (p, ms) =>
       Promise.race([
         p,
@@ -40,7 +52,6 @@ const base = import.meta.env.BASE_URL.replace(/\/+$/, '') + '/';
           try {
             await comLimite(pf.init(), 15000);
           } catch {}
-          console.log('assistente: pagefind pronto', Object.keys(pf));
         } catch (erro) {
           pf = null;
           erroCarga = erro;
@@ -53,21 +64,23 @@ const base = import.meta.env.BASE_URL.replace(/\/+$/, '') + '/';
 
     function renderResultados(consulta, resultados) {
       if (!resultados.length) {
-        out.innerHTML = `<p class="qa-vazio">Nada encontrado para "<strong>${consulta}</strong>". Tente outras palavras.</p>`;
+        out.innerHTML = `<p class="qa-vazio">Nada encontrado para "<strong>${esc(consulta)}</strong>". Tente outras palavras ou use a <a href="${base}busca/">busca completa</a>.</p>`;
         return;
       }
-      const partes = [`<p class="qa-titulo">Trechos do guia que respondem a "${consulta}":</p>`];
+      const partes = [`<p class="qa-titulo">Trechos do guia que respondem a "${esc(consulta)}":</p>`];
       for (const r of resultados) {
         const d = r;
         const titulo = d.meta?.title ?? 'Página';
         partes.push(`
           <article class="qa-card">
-            <a class="qa-card-title" href="${d.url}">${titulo}</a>
+            <a class="qa-card-title" href="${esc(d.url)}">${esc(titulo)}</a>
             <p class="qa-excerpt">${d.excerpt}</p>
           </article>
         `);
       }
       out.innerHTML = partes.join('');
+      out.setAttribute('tabindex', '-1');
+      out.focus();
     }
 
     function fallbackBusca() {
@@ -128,5 +141,12 @@ const base = import.meta.env.BASE_URL.replace(/\/+$/, '') + '/';
         fallbackBusca();
       }
     });
+
+    for (const chip of document.querySelectorAll('.chip[data-exemplo]')) {
+      chip.addEventListener('click', () => {
+        input.value = chip.dataset.exemplo;
+        form.requestSubmit();
+      });
+    }
   </script>
 </Base>

@@ -41,17 +41,28 @@ const apendice = [
     <title>{title} · Sociocracia 3.0</title>
     <meta name="description" content={description} />
     <link rel="icon" href={`${base}favicon.svg`} type="image/svg+xml" />
+    <meta name="theme-color" content="#2f6f4f" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0f1216" media="(prefers-color-scheme: dark)" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={`${title} · Sociocracia 3.0`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:locale" content="pt_BR" />
+    <meta name="twitter:card" content="summary" />
   </head>
   <body>
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
     <header class="site" data-pagefind-ignore>
       <div class="bar">
         <a class="brand" href={base}>Sociocracia <span>3.0</span></a>
         <nav class="top">
-          <a href={`${base}assistente/`}>Assistente</a>
-          <a href={`${base}busca/`}>Busca</a>
-          <a href={`${base}padroes/`}>Padrões</a>
+          <a href={`${base}assistente/`} aria-current={current.startsWith('/assistente') ? 'page' : undefined}>Assistente</a>
+          <a href={`${base}busca/`} aria-current={current.startsWith('/busca') ? 'page' : undefined}>Busca</a>
+          <a href={`${base}padroes/`} aria-current={current.startsWith('/padroes') ? 'page' : undefined}>Padrões</a>
         </nav>
-        <button class="toggle" id="navToggle" aria-label="Abrir menu" aria-expanded="false">Menu</button>
+        <form class="topsearch" role="search" action={`${base}busca/`} method="get">
+          <input type="search" name="q" placeholder="Buscar no guia…" aria-label="Buscar no guia" />
+        </form>
+        <button class="toggle" id="navToggle" aria-controls="sidebar" aria-label="Abrir menu" aria-expanded="false">Menu</button>
       </div>
     </header>
 
@@ -109,7 +120,7 @@ const apendice = [
         </nav>
       </aside>
 
-      <main data-pagefind-body>
+      <main id="conteudo" data-pagefind-body>
         <slot />
       </main>
     </div>
@@ -130,6 +141,7 @@ const apendice = [
       btn?.addEventListener('click', () => {
         const open = sidebar.classList.toggle('open');
         btn.setAttribute('aria-expanded', String(open));
+        btn.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
       });
     </script>
   </body>
