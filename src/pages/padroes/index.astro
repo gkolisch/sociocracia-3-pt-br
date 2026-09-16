@@ -44,6 +44,7 @@ for (const entrada of entradas) {
   </div>
 
   <p id="filtro-vazio" class="qa-vazio" hidden>Nenhum padrão corresponde ao filtro.</p>
+  <p id="filtro-contagem" class="nota" aria-live="polite"></p>
 
   {
     categorias.map((c) => (
@@ -62,7 +63,7 @@ for (const entrada of entradas) {
     ))
   }
 
-  <section id="estrutura-organizacional">
+  <section id="estrutura-organizacional" class="cat" data-cat="estrutura-organizacional">
     <h2>{estrutura.titulo}</h2>
     <div class="cards">
       <a class="card" href={`${base}${estrutura.slug}/`} data-titulo="estrutura organizacional">
@@ -75,11 +76,13 @@ for (const entrada of entradas) {
   <script>
     const alvo = document.getElementById('filtro-texto');
     const vazio = document.getElementById('filtro-vazio');
+    const contagem = document.getElementById('filtro-contagem');
     const chips = Array.from(document.querySelectorAll('.chip[data-cat]'));
     const secoes = Array.from(document.querySelectorAll('section.cat'));
+    const totalCards = document.querySelectorAll('section.cat:not(#estrutura-organizacional) .card').length;
     let categoria = 'todos';
 
-    function aplicar() {
+    function aplicar(atualizarUrl = true) {
       const termo = (alvo.value || '').trim().toLowerCase();
       let visiveis = 0;
       for (const secao of secoes) {
@@ -95,9 +98,27 @@ for (const entrada of entradas) {
         visiveis += visiveisNaSecao;
       }
       vazio.hidden = visiveis !== 0;
+      contagem.textContent = visiveis === totalCards ? '' : `${visiveis} de ${totalCards} padrões`;
+      if (atualizarUrl) {
+        const params = new URLSearchParams();
+        if (termo) params.set('q', termo);
+        if (categoria !== 'todos') params.set('cat', categoria);
+        const busca = params.toString();
+        history.replaceState(null, '', busca ? `?${busca}` : location.pathname);
+      }
     }
 
-    alvo?.addEventListener('input', aplicar);
+    const params = new URLSearchParams(location.search);
+    const qInicial = params.get('q');
+    const catInicial = params.get('cat');
+    if (qInicial) alvo.value = qInicial;
+    if (catInicial) {
+      categoria = catInicial;
+      for (const c of chips) c.setAttribute('aria-pressed', String(c.dataset.cat === catInicial));
+    }
+    aplicar(false);
+
+    alvo?.addEventListener('input', () => aplicar());
     for (const chip of chips) {
       chip.addEventListener('click', () => {
         categoria = chip.dataset.cat;

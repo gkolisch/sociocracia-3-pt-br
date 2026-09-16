@@ -1,0 +1,107 @@
+---
+import Base from '../layouts/Base.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/+$/, '') + '/';
+
+const passos = [
+  {
+    titulo: 'Prepare antes',
+    texto:
+      'Defina o objetivo da reunião, convide as pessoas certas e mande uma pauta simples com antecedência. Reserve o local e o tempo.',
+    padroes: [
+      { slug: 'preparar-reunioes', titulo: 'Preparar reuniões' },
+      { slug: 'anfitriao-da-reuniao', titulo: 'Anfitrião da reunião' },
+    ],
+  },
+  {
+    titulo: 'Abra com uma chegança',
+    texto:
+      'Comece com cada pessoa dizendo brevemente como está e o que traz. Isso acalma o grupo e traz presença para a conversa.',
+    padroes: [{ slug: 'cheganca', titulo: 'Chegança' }],
+  },
+  {
+    titulo: 'Deixe a pauta e o foco claros',
+    texto:
+      'Escolha quem facilita a reunião e trate os itens um a um, com tempo combinado. O objetivo é manter o foco e ouvir a sabedoria do grupo.',
+    padroes: [
+      { slug: 'reuniao-de-governanca', titulo: 'Reunião de governança' },
+      { slug: 'facilitar-reunioes', titulo: 'Facilitar reuniões' },
+    ],
+  },
+  {
+    titulo: 'Ouça todos em rodadas',
+    texto:
+      'Em vez de deixar quem fala mais dominar, dê a volta no círculo e ouça cada pessoa. Rodadas mantêm a equivalência.',
+    padroes: [{ slug: 'rodadas', titulo: 'Rodadas' }],
+  },
+  {
+    titulo: 'Decida por consentimento',
+    texto:
+      'Construa uma proposta em conjunto e busque objeções: argumentos que mostram por que a decisão não é boa o bastante ou segura o bastante. Resolva as objeções até ficar boa o bastante por agora.',
+    padroes: [
+      { slug: 'formacao-de-proposta', titulo: 'Formação de proposta' },
+      { slug: 'tomada-de-decisao-por-consentimento', titulo: 'Tomada de decisão por consentimento' },
+      { slug: 'testar-se-argumentos-qualificam-como-objecoes', titulo: 'Testar se argumentos qualificam como objeções' },
+      { slug: 'resolver-objecoes', titulo: 'Resolver objeções' },
+    ],
+  },
+  {
+    titulo: 'Registre o que foi decidido',
+    texto:
+      'Anote as decisões, quem é responsável pelo quê e quando revisar. Sem registro, o grupo esquece e repete discussões.',
+    padroes: [
+      { slug: 'registrar-decisoes-de-governanca', titulo: 'Registrar decisões de governança' },
+      { slug: 'livro-de-registro', titulo: 'Livro de registro' },
+      { slug: 'lista-de-pendencias-de-governanca', titulo: 'Lista de pendências de governança' },
+    ],
+  },
+  {
+    titulo: 'Feche avaliando a reunião',
+    texto:
+      'Reserve alguns minutos para dizer o que funcionou e o que melhorar. É a forma mais barata de o grupo aprender junto.',
+    padroes: [{ slug: 'avaliar-reunioes', titulo: 'Avaliar reuniões' }],
+  },
+  {
+    titulo: 'Combine o próximo passo',
+    texto:
+      'Defina quando o grupo se reúne de novo e o que fica pendente até lá. Uma cadência regular mantém o trabalho andando.',
+    padroes: [
+      { slug: 'reuniao-de-coordenacao', titulo: 'Reunião de coordenação' },
+      { slug: 'lista-de-pendencias', titulo: 'Lista de pendências' },
+    ],
+  },
+];
+---
+
+<Base title="Primeira reunião">
+  <h1>Primeira reunião</h1>
+  <p class="lede">
+    Um roteiro curto para a primeira reunião de um coletivo ou organização nova. É uma sugestão de caminho,
+    não uma regra: adapte ao seu contexto.
+  </p>
+  <p class="nota">Cada passo traz padrões do guia que ajudam a fazer aquilo.</p>
+
+  <ol class="passos">
+    {
+      passos.map((p) => (
+        <li>
+          <h2>{p.titulo}</h2>
+          <p>{p.texto}</p>
+          <ul class="chips">
+            {p.padroes.map((padrao) => (
+              <li>
+                <a href={`${base}padroes/${padrao.slug}/`}>{padrao.titulo}</a>
+              </li>
+            ))}
+          </ul>
+        </li>
+      ))
+    }
+  </ol>
+
+  <p>
+    Quer entender o método antes? Veja <a href={`${base}abertura/`}>O que é S3</a> e
+    <a href={`${base}principios/`}>os sete princípios</a>. Para outras tarefas, volte ao
+    <a href={base}>início</a> e use "Comece por situação".
+  </p>
+</Base>

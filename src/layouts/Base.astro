@@ -16,10 +16,13 @@ const current = pageUrl.pathname;
 
 const paginas = [
   { href: 'abertura/', label: 'O que é S3' },
+  { href: 'primeira-reuniao/', label: 'Primeira reunião' },
   { href: 'principios/', label: 'Os sete princípios' },
   { href: 'conceitos-chave/', label: 'Conceitos-chave' },
   { href: 'common-sense-framework/', label: 'Framework de senso comum' },
   { href: 'glossario/', label: 'Glossário' },
+  { href: 'busca/', label: 'Busca' },
+  { href: 'assistente/', label: 'Busca assistida' },
 ];
 
 const apendice = [
@@ -46,6 +49,7 @@ const apendice = [
     <meta property="og:type" content="website" />
     <meta property="og:title" content={`${title} · Sociocracia 3.0`} />
     <meta property="og:description" content={description} />
+    <meta property="og:url" content={new URL(Astro.url.pathname, Astro.site ?? 'https://example.github.io').href} />
     <meta property="og:locale" content="pt_BR" />
     <meta name="twitter:card" content="summary" />
   </head>
@@ -54,8 +58,8 @@ const apendice = [
     <header class="site" data-pagefind-ignore>
       <div class="bar">
         <a class="brand" href={base}>Sociocracia <span>3.0</span></a>
-        <nav class="top">
-          <a href={`${base}assistente/`} aria-current={current.startsWith('/assistente') ? 'page' : undefined}>Assistente</a>
+        <nav class="top" aria-label="Navegação principal">
+          <a href={`${base}assistente/`} aria-current={current.startsWith('/assistente') ? 'page' : undefined}>Busca assistida</a>
           <a href={`${base}busca/`} aria-current={current.startsWith('/busca') ? 'page' : undefined}>Busca</a>
           <a href={`${base}padroes/`} aria-current={current.startsWith('/padroes') ? 'page' : undefined}>Padrões</a>
         </nav>
@@ -68,7 +72,7 @@ const apendice = [
 
     <div class="layout">
       <aside class="sidebar" id="sidebar" data-pagefind-ignore>
-        <nav>
+        <nav aria-label="Navegação do guia">
           <ul>
             <li><a href={base} aria-current={current === '/' ? 'page' : undefined}>Início</a></li>
             {
@@ -120,7 +124,7 @@ const apendice = [
         </nav>
       </aside>
 
-      <main id="conteudo" data-pagefind-body>
+      <main id="conteudo" tabindex="-1" data-pagefind-body>
         <slot />
       </main>
     </div>
