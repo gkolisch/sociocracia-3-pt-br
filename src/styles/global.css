@@ -534,7 +534,7 @@ footer.site .bar {
     grid-template-columns: 1fr;
     gap: 0;
   }
-  .top {
+  header.site nav.top {
     display: none;
   }
   .topsearch {
