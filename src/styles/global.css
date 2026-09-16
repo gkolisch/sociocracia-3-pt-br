@@ -505,11 +505,13 @@ main a.padnav-link {
 }
 
 .situacao a {
+  display: inline-block;
   font-size: 0.82rem;
+  line-height: 1.4;
   background: var(--bg);
   border: 1px solid var(--border);
-  border-radius: 999px;
-  padding: 0.15rem 0.6rem;
+  border-radius: 6px;
+  padding: 0.2rem 0.6rem;
 }
 
 .situacao a:hover {
